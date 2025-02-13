@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  mysql-server:
+    image: sesandoval21/mysql-database
+    container_name: DB_MYSQL
+    environment:
+      MYSQL_ROOT_PASSWORD: "admin"
+      MYSQL_DATABASE: app_db
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+    restart: always
+
+  backend:
+    image: sesandoval21/gestor-clientes-back
+    container_name: APP-BACKEND
+    depends_on:
+      - mysql-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-server:3306/app_db?createDatabaseIfNotExist=true
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: admin
+    ports:
+      - "8080:8080"
+    networks:
+      - my-network
+    restart: always
+
+  frontend:
+    image: sesandoval21/manage-uce-front
+    container_name: APP-FRONTEND
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    networks:
+      - my-network
+    restart: always
+
+networks:
+  my-network:
+    driver: bridge
+

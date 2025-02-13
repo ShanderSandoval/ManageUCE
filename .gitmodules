@@ -1,0 +1,6 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/ShanderSandoval/gestion-clientes.git
+[submodule "backendm"]
+	path = backendm
+	url = https://github.com/ShanderSandoval/gestor-clientes-back.git
